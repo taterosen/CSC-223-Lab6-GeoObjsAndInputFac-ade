@@ -27,8 +27,8 @@ public class InputFacade
 	 */
 	public static FigureNode extractFigure(String filename)
 	{
-		return null;
-        // TODO
+		JSONParser parser = new JSONParser();
+		return (FigureNode)parser.parse(filename.toString());
 	}
 	
 	/**
@@ -41,6 +41,8 @@ public class InputFacade
 	 */
 	public static Map.Entry<PointDatabase, Set<Segment>> toGeometryRepresentation(String filename)
 	{
+		FigureNode figure = extractFigure(filename);
+		
 		return null;
 		// TODO
 	}
