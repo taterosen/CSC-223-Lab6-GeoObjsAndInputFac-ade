@@ -22,6 +22,8 @@ public class PointNamingFactory
 
 	private String _currentName = "A";
 	private int _numLetters = 1;
+	
+	public static final String _ANONYMOUS = "__UNNAMED";
 
 	//
 	// A hashed container for the database of points;
@@ -45,7 +47,7 @@ public class PointNamingFactory
 	{
 		this();
 		for(Point point: points) {
-			this._database.put(point, point);
+			this.lookupExisting(point.getName(), point.getX(), point.getY());
 		}
 	}
 
@@ -56,9 +58,9 @@ public class PointNamingFactory
 	 */
 	public Point put(Point pt)
 	{
-		this._database.put(pt, pt);
-		return pt;
-		// TODO
+		return this.lookupExisting(pt.getName(), pt.getX(), pt.getY());
+		//this._database.put(pt, pt);
+		//return pt;
 	}
 
 	/**
@@ -87,7 +89,6 @@ public class PointNamingFactory
 	public Point put(String name, double x, double y)
 	{
 		return this.put(new Point(name,x,y));
-		
 	}    
 
 	/**
@@ -124,11 +125,11 @@ public class PointNamingFactory
 	private Point lookupExisting(String name, double x, double y)
 	{
 		Point pt = new Point(x,y);
-		if(name != null && this.get(pt) != null && pt.getName().startsWith(_PREFIX)) 
+		if(name != _ANONYMOUS && this.get(pt) != null && pt.getName().startsWith(_PREFIX)) 
 			return this.put(name,x,y);
 		if(this.get(pt) != null) return this.get(pt);
 		
-		if(name == null) name = getCurrentName();
+		if(name == _ANONYMOUS) name = getCurrentName();
 		return createNewPoint(name,x,y);
 	}  
 
