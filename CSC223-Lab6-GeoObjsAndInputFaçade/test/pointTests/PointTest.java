@@ -64,5 +64,17 @@ class PointTest {
 		Point equalPoint = new Point("Same Point",0,0);
 		assertEquals(0, equalPoint.compareTo(point));
 	}
+	
+	@Test
+	void testToString() {
+		Point point = new Point(0,0);
+		assertEquals("__UNNAMED(0.00, 0.00)", point.toString());
+		
+		Point decimalPt = new Point("decimalPt",1.23456,-9.87654);
+		assertEquals("decimalPt(1.23, -9.88)", decimalPt.toString());
+		
+		Point pointDouble = new Point(1.1,2.2);
+		assertEquals("__UNNAMED(1.10, 2.20)", pointDouble.toString());
+	}
 
 }

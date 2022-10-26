@@ -1,8 +1,10 @@
 package geometry_objects.points;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /*
@@ -32,7 +34,7 @@ public class PointNamingFactory
 
 	public PointNamingFactory()
 	{
-		// TODO
+		this._database = new LinkedHashMap<Point,Point>();
 	}
 
 	/**
@@ -41,7 +43,10 @@ public class PointNamingFactory
 	 */
 	public PointNamingFactory(List<Point> points)
 	{
-		// TODO
+		this();
+		for(Point point: points) {
+			this._database.put(point, point);
+		}
 	}
 
 	/**
@@ -51,6 +56,7 @@ public class PointNamingFactory
 	 */
 	public Point put(Point pt)
 	{
+		this._database.put(pt, pt);
 		return pt;
 		// TODO
 	}
@@ -62,8 +68,7 @@ public class PointNamingFactory
 	 */
 	public Point put(double x, double y)
 	{
-		return null;
-		// TODO
+		return this.put(new Point(x,y));
 	}
 
 	/**
@@ -81,8 +86,8 @@ public class PointNamingFactory
 	 */
 	public Point put(String name, double x, double y)
 	{
-		return null;
-		// TODO
+		return this.put(new Point(name,x,y));
+		
 	}    
 
 	/**
@@ -118,8 +123,13 @@ public class PointNamingFactory
 	 */
 	private Point lookupExisting(String name, double x, double y)
 	{
-		return null;
-		// TODO
+		Point pt = new Point(x,y);
+		if(name != null && this.get(pt) != null && pt.getName().startsWith(_PREFIX)) 
+			return this.put(name,x,y);
+		if(this.get(pt) != null) return this.get(pt);
+		
+		if(name == null) name = getCurrentName();
+		return createNewPoint(name,x,y);
 	}  
 
 	/**
@@ -147,9 +157,11 @@ public class PointNamingFactory
 	 * @return simple containment; no updating
 	 */
 	public boolean contains(double x, double y) {
+		
 		return false; /* TODO */ }
 	public boolean contains(Point p) {
-		return false; /* TODO */ }
+		return this.get(p) != null;
+	}
 
 	/**
 	 * @return acquires and returns the next name in sequence; also
@@ -157,8 +169,9 @@ public class PointNamingFactory
 	 */
 	private String getCurrentName()
 	{
-		return _currentName;
-        // TODO
+		String name = this._currentName;
+		this.updateName();
+		return _PREFIX + name;
 	}
 
 	/**
@@ -173,10 +186,15 @@ public class PointNamingFactory
 	/**
 	 * @return The entire database of points.
 	 */
-	public  Set<Point> getAllPoints()
+	public Set<Point> getAllPoints()
 	{
-		return null;
-        // TODO
+		Set<Point> points = new HashSet<Point>();
+		
+		for(Entry<Point,Point> entry: _database.entrySet()) {
+			points.add(entry.getKey());
+		}
+		
+		return points;
 	}
 
 	public void clear() { _database.clear(); }
@@ -185,7 +203,15 @@ public class PointNamingFactory
 	@Override
 	public String toString()
 	{
-		return _currentName;
-        // TODO
+		Set<Point> points = this.getAllPoints();
+		String returnString = "";
+		
+		for(Point point: points) {
+			returnString += point.toString() + ", ";
+		}
+		
+		returnString = returnString.substring(0, returnString.length()-2);
+		
+		return returnString;
 	}
 }

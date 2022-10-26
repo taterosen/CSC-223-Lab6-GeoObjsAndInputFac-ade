@@ -97,4 +97,12 @@ public class Point implements Comparable<Point>
 
 		return Point.LexicographicOrdering(this, that);
 	}
+	
+	@Override
+	public String toString()
+	{
+		String xValue = (String) String.format("%.2f", this._x);
+		String yValue = (String) String.format("%.2f", this._y);
+		return this._name + "(" + xValue + ", " + yValue + ")";
+	}
 }
