@@ -22,7 +22,7 @@ public class PointNamingFactory
 
 	private String _currentName = "A";
 	private int _numLetters = 1;
-	
+
 	public static final String _ANONYMOUS = "__UNNAMED";
 
 	//
@@ -37,6 +37,7 @@ public class PointNamingFactory
 	public PointNamingFactory()
 	{
 		this._database = new LinkedHashMap<Point,Point>();
+
 	}
 
 	/**
@@ -49,6 +50,7 @@ public class PointNamingFactory
 		for(Point point: points) {
 			this.lookupExisting(point.getName(), point.getX(), point.getY());
 		}
+
 	}
 
 	/**
@@ -100,13 +102,14 @@ public class PointNamingFactory
 	 */
 	public Point get(double x, double y)
 	{
-		return null;
-		// TODO
+
+		return get(new Point(x,y));
+
 	}	
 	public Point get(Point pt)
 	{
-		return pt;
-		// TODO
+		return _database.get(pt);
+
 	}
 
 	/**
@@ -128,7 +131,7 @@ public class PointNamingFactory
 		if(name != _ANONYMOUS && this.get(pt) != null && pt.getName().startsWith(_PREFIX)) 
 			return this.put(name,x,y);
 		if(this.get(pt) != null) return this.get(pt);
-		
+
 		if(name == _ANONYMOUS) name = getCurrentName();
 		return createNewPoint(name,x,y);
 	}  
@@ -148,8 +151,12 @@ public class PointNamingFactory
 	 */
 	private Point createNewPoint(String name, double x, double y)
 	{
-		return null;
-		// TODO
+		Point point  = new Point(name,x,y);
+
+		_database.put(point, point);
+
+		return point;
+
 	}
 
 	/**
@@ -158,12 +165,13 @@ public class PointNamingFactory
 	 * @return simple containment; no updating
 	 */
 	public boolean contains(double x, double y) {
-		
-		return false; /* TODO */ }
+
+		return this.contains(new Point(x,y));
+	}
 	public boolean contains(Point p) {
+
 		return this.get(p) != null;
 	}
-
 	/**
 	 * @return acquires and returns the next name in sequence; also
 	 * generates the next name in a 'lazy list' manner 
@@ -179,9 +187,29 @@ public class PointNamingFactory
 	 * Advances the current generated name to the next letter in the alphabet:
 	 * 'A' -> 'B' -> 'C' -> 'Z' --> 'AA' -> 'BB'
 	 */
-	private  void updateName()
+	protected void updateName()
 	{
-        // TODO
+		char firstChar = this._currentName.charAt(2);
+
+		int intRep = Character.getNumericValue(firstChar);
+
+		int nextIntRep = intRep + 1;
+
+		if (intRep == Character.getNumericValue(END_LETTER)) {
+
+			nextIntRep = 1;
+			_numLetters++;
+
+		}
+
+		for (int i = 1; i < _numLetters; i++) {
+
+			_currentName.concat(Integer.toString(nextIntRep));
+
+		}
+
+		//		_currentName = Integer.toString(nextIntRep);
+
 	}
 
 	/**
@@ -189,12 +217,13 @@ public class PointNamingFactory
 	 */
 	public Set<Point> getAllPoints()
 	{
+
 		Set<Point> points = new HashSet<Point>();
-		
+
 		for(Entry<Point,Point> entry: _database.entrySet()) {
 			points.add(entry.getKey());
 		}
-		
+
 		return points;
 	}
 
@@ -204,15 +233,16 @@ public class PointNamingFactory
 	@Override
 	public String toString()
 	{
+
 		Set<Point> points = this.getAllPoints();
 		String returnString = "";
-		
+
 		for(Point point: points) {
 			returnString += point.toString() + ", ";
 		}
-		
+
 		returnString = returnString.substring(0, returnString.length()-2);
-		
+
 		return returnString;
 	}
 }
