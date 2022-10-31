@@ -61,8 +61,6 @@ public class PointNamingFactory
 	public Point put(Point pt)
 	{
 		return this.lookupExisting(pt.getName(), pt.getX(), pt.getY());
-		//this._database.put(pt, pt);
-		//return pt;
 	}
 
 	/**
@@ -102,14 +100,11 @@ public class PointNamingFactory
 	 */
 	public Point get(double x, double y)
 	{
-
 		return get(new Point(x,y));
-
 	}	
 	public Point get(Point pt)
 	{
 		return _database.get(pt);
-
 	}
 
 	/**
@@ -156,7 +151,6 @@ public class PointNamingFactory
 		_database.put(point, point);
 
 		return point;
-
 	}
 
 	/**
@@ -196,19 +190,13 @@ public class PointNamingFactory
 		int nextIntRep = intRep + 1;
 
 		if (intRep == Character.getNumericValue(END_LETTER)) {
-
 			nextIntRep = 1;
 			_numLetters++;
-
 		}
 
 		for (int i = 1; i < _numLetters; i++) {
-
 			_currentName.concat(Integer.toString(nextIntRep));
-
 		}
-
-		//		_currentName = Integer.toString(nextIntRep);
 
 	}
 

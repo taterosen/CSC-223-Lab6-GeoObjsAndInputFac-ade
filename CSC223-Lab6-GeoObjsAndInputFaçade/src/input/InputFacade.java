@@ -3,12 +3,16 @@ package input;
 //import static org.junit.jupiter.api.Assertions.*; ????
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import geometry_objects.points.Point;
 import geometry_objects.points.PointDatabase;
+import geometry_objects.points.PointNamingFactory;
 import geometry_objects.Segment;
 import input.builder.GeometryBuilder;
 import input.components.ComponentNode;
@@ -43,7 +47,33 @@ public class InputFacade
 	{
 		FigureNode figure = extractFigure(filename);
 		
+		//change PointNodes in PointNodeDatabase into Points, then add to PointNamingFactory
+		PointNamingFactory pointFactory = new PointNamingFactory();
+		
+		for(PointNode p: figure.getPointsDatabase().getPoints()) {
+			Point point = new Point(p.getName(),p.getX(),p.getY());
+			pointFactory.put(point);
+		}
+		
+		//change SegmentNodes into Segments, then add to a LinkedHashSet
+		Set<Segment> segments = new LinkedHashSet<Segment>();
+		for(SegmentNode seg: figure.getSegments().asSegmentList()) {
+			PointNode pointNode1 = seg.getPoint1();
+			PointNode pointNode2 = seg.getPoint2();
+			
+			Point point1 = new Point(pointNode1.getName(),pointNode1.getX(),pointNode1.getY());
+			Point point2 = new Point(pointNode2.getName(),pointNode2.getX(),pointNode2.getY());
+			
+			Segment segment = new Segment(point1,point2);
+			segments.add(segment);
+		}
+		
+		// i need help here
+		List<Point> list = (List<Point>) pointFactory.getAllPoints();
+		PointDatabase pointData = new PointDatabase(list);
+		
+		//return Map.Entry<pointData, segments>(); //?????????
 		return null;
-		// TODO
+
 	}
 }

@@ -25,12 +25,12 @@ public class PointDatabase
     
 	public PointDatabase()
 	{
-        // TODO
+        this(new ArrayList<Point>());
 	}
 
 	public PointDatabase(List<Point> points)
 	{
-        // TODO
+        this._factory = new PointNamingFactory(points);
 	}
 
 	public int size() { return _factory.size(); }
@@ -47,7 +47,7 @@ public class PointDatabase
 	 */
 	public void put(String name, double x, double y)
 	{
-        // TODO
+		if(name != null) this._factory.put(name, x, y);
 	}
 
 	/**
@@ -63,8 +63,7 @@ public class PointDatabase
 	}
 	public String getName(Point pt)
 	{
-		return null;
-        // TODO
+		return this._factory.get(pt).getName();
 	}
 
 	/**
