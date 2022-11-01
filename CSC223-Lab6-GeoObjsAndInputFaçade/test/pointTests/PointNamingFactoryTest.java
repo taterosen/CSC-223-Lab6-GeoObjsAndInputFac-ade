@@ -2,6 +2,9 @@ package pointTests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import geometry_objects.points.Point;
@@ -19,6 +22,25 @@ class PointNamingFactoryTest {
 		}
 		
 		return pointNamingFactory;
+	}
+	
+	@Test
+	void testPointNamingFactory() {
+		
+		PointNamingFactory pnf = new PointNamingFactory();
+		assertEquals(0, pnf.size());
+		
+	}
+	
+	@Test
+	void testPointNamingFactoryList() {
+		List<Point> list = new ArrayList<Point>();
+		list.add(new Point(0,0));
+		list.add(new Point(1,1));
+		PointNamingFactory pnf = new PointNamingFactory(list);
+		
+		assertEquals(2, pnf.size());
+		
 	}
 	
 	
@@ -163,20 +185,14 @@ class PointNamingFactoryTest {
 	void testClear() {
 		
 		PointNamingFactory pnf = addToDataBase();
+		assertEquals(20, pnf.size());
 		
-		
+		pnf.clear();
+		assertEquals(0, pnf.size());
 	}
 	
 	@Test
 	void testSize() {
-		
-		PointNamingFactory pnf = addToDataBase();
-		
-		
-	}
-	
-	@Test
-	void testToString() {
 		
 		PointNamingFactory pnf = addToDataBase();
 		
