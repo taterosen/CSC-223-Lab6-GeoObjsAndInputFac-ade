@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import geometry_objects.points.Point;
 import geometry_objects.points.PointNamingFactory;
 
-class PointNameFactoryTest {
+class PointNamingFactoryTest {
 
 	private PointNamingFactory addToDataBase() {
 		PointNamingFactory pointNamingFactory = new PointNamingFactory();
@@ -17,6 +17,7 @@ class PointNameFactoryTest {
 			Point point = new Point("Point" + i, (double) i, (double) i);
 			pointNamingFactory.put(point);
 		}
+		
 		return pointNamingFactory;
 	}
 	
@@ -28,14 +29,15 @@ class PointNameFactoryTest {
 		
 		Point point = new Point(0, 0);
 		pnf.put(point);
-		System.out.println(pnf);
 		assertTrue(pnf.contains(point));
 		assertTrue(pnf.contains(0, 0));
 		assertTrue(pnf.contains(new Point("*_A",0.00,0.00)));
 		
-		
-
-		
+		Point point2 = new Point("name",1, 0);
+		pnf.put(point2);
+		assertTrue(pnf.contains(point2));
+		assertTrue(pnf.contains(1, 0));
+		assertTrue(pnf.contains(new Point("name",1.00,0.00)));
 	}
 	
 	@Test
@@ -47,7 +49,14 @@ class PointNameFactoryTest {
 		assertTrue(pnf.contains(0, 0));
 		assertTrue(pnf.contains(new Point("*_A",0.00,0.00)));
 		
-
+		pnf.put(50,50);
+		assertTrue(pnf.contains(50, 50));
+		assertTrue(pnf.contains(new Point("*_B",50.00,50.00)));
+		
+		//duplicate
+		pnf.put(0,0);
+		assertTrue(pnf.contains(0, 0));
+		assertFalse(pnf.contains(new Point("*_C",0.00,0.00)));
 		
 	}
 	
@@ -56,6 +65,9 @@ class PointNameFactoryTest {
 		
 		PointNamingFactory pnf = new PointNamingFactory();
 				
+		pnf.put("name",0,0);
+		assertTrue(pnf.contains(new Point("name", 0, 0)));
+		
 		pnf.put("name",0,0);
 		assertTrue(pnf.contains(new Point("name", 0, 0)));
 		
@@ -77,7 +89,6 @@ class PointNameFactoryTest {
 	
 	@Test
 	void testGetCoordinates() {
-		
 		PointNamingFactory pnf = addToDataBase();
 		
 		assertEquals(new Point("Point1", 1.0, 1.0), pnf.get(1.0, 1.0));
@@ -86,7 +97,50 @@ class PointNameFactoryTest {
 
 	}
 	
+	@Test
+	void testLookupExisting() {
+		
+		PointNamingFactory pnf = addToDataBase();
+		
+		
+	}
 	
+	@Test
+	void testCreateNewPoint() {
+		
+		PointNamingFactory pnf = addToDataBase();
+		
+		
+	}
+	
+	@Test
+	void testContainsPoint() {
+		
+		PointNamingFactory pnf = addToDataBase();
+		
+		assertTrue(pnf.contains(new Point(1.0,1.0)));
+		assertFalse(pnf.contains(new Point(100, 100)));
+		
+	}
+	
+	@Test
+	void testContainsCoordinates() {
+		
+		PointNamingFactory pnf = addToDataBase();
+		
+		assertTrue(pnf.contains(1.0,1.0));
+		assertFalse(pnf.contains(100.0,100.0));
+		
+		
+	}
+	
+	@Test
+	void testGetCurrentName() {
+		
+		PointNamingFactory pnf = addToDataBase();
+		
+		
+	}
 	
 	
 	@Test
@@ -95,7 +149,37 @@ class PointNameFactoryTest {
 		PointNamingFactory pnf = addToDataBase();
 		
 		
-
+	}
+	
+	@Test
+	void testGetAllPoints() {
+		
+		PointNamingFactory pnf = addToDataBase();
+		
+		
+	}
+	
+	@Test
+	void testClear() {
+		
+		PointNamingFactory pnf = addToDataBase();
+		
+		
+	}
+	
+	@Test
+	void testSize() {
+		
+		PointNamingFactory pnf = addToDataBase();
+		
+		
+	}
+	
+	@Test
+	void testToString() {
+		
+		PointNamingFactory pnf = addToDataBase();
+		
 		
 	}
 		

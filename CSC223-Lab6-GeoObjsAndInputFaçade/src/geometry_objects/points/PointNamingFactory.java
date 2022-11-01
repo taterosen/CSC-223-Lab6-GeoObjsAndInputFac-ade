@@ -120,12 +120,12 @@ public class PointNamingFactory
 	 *         
 	 *         The exception is that a valid name can overwrite an unnamed point.
 	 */
-	private Point lookupExisting(String name, double x, double y)
+	protected Point lookupExisting(String name, double x, double y)
 	{
 		Point pt = new Point(x,y);
-		if(name != _ANONYMOUS && this.get(pt) != null && pt.getName().startsWith(_PREFIX)) 
+		if(name != _ANONYMOUS && this.contains(pt) && pt.getName().startsWith(_PREFIX)) 
 			return this.put(name,x,y);
-		if(this.get(pt) != null) return this.get(pt);
+		if(this.contains(x,y)) return this.get(pt);
 
 		if(name == _ANONYMOUS) name = getCurrentName();
 		return createNewPoint(name,x,y);
@@ -144,7 +144,7 @@ public class PointNamingFactory
 	 *         
 	 *         The exception is that a valid name can overwrite an unnamed point.
 	 */
-	private Point createNewPoint(String name, double x, double y)
+	protected Point createNewPoint(String name, double x, double y)
 	{
 		Point point  = new Point(name,x,y);
 
@@ -170,7 +170,7 @@ public class PointNamingFactory
 	 * @return acquires and returns the next name in sequence; also
 	 * generates the next name in a 'lazy list' manner 
 	 */
-	private String getCurrentName()
+	protected String getCurrentName()
 	{
 		String name = this._currentName;
 		this.updateName();
