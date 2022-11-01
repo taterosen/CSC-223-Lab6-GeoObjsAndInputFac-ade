@@ -68,7 +68,7 @@ public class Point implements Comparable<Point>
 	public int hashCode()
 	{
 		return Double.valueOf(MathUtilities.removeLessEpsilon(_x)).hashCode() +
-			   Double.valueOf(MathUtilities.removeLessEpsilon(_y)).hashCode();
+				Double.valueOf(MathUtilities.removeLessEpsilon(_y)).hashCode();
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class Point implements Comparable<Point>
 			if(p1.getY() < p2.getY()) return -1;
 			else if(p1.getY() > p2.getY()) return 1;
 		}
-		
+
 		return 0;
 	}
 
@@ -98,21 +98,21 @@ public class Point implements Comparable<Point>
 
 		return Point.LexicographicOrdering(this, that);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		//check if obj is null or of different class
-				if (obj == null) return false;
-				if (obj.getClass() != this.getClass()) return false;
-				
-				Point objAsPoint = (Point) obj;
-				//check obj address and coordinates
-				if (this == obj) return true; 
-				if (MathUtilities.doubleEquals(this.getX(),objAsPoint.getX()) && 
-					MathUtilities.doubleEquals(this.getY(),objAsPoint.getY())) return true;
-				return false;
+		if (obj == null) return false;
+		if (obj.getClass() != this.getClass()) return false;
+
+		Point objAsPoint = (Point) obj;
+		//check obj address and coordinates
+		if (this == obj) return true; 
+		if (MathUtilities.doubleEquals(this.getX(),objAsPoint.getX()) && 
+				MathUtilities.doubleEquals(this.getY(),objAsPoint.getY())) return true;
+		return false;
 	}
-	
+
 	@Override
 	public String toString()
 	{
