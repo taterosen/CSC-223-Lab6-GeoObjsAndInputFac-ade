@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import geometry_objects.points.Point;
 import geometry_objects.points.PointNamingFactory;
 
-class PointNameFactory {
+class PointNameFactoryTest {
 
 	
 	private PointNamingFactory addToDataBase() {

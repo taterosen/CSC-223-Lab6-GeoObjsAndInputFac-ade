@@ -79,6 +79,7 @@ public class PointDatabase
 		for (Point p : points) {
 			if(name.equals(p.getName())) return p;
 		}
+		
 		return null;	
 	}
 
