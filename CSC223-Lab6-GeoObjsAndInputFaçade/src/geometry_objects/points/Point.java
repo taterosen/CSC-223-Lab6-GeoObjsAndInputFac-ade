@@ -1,5 +1,6 @@
 package geometry_objects.points;
 
+import input.components.point.PointNode;
 import utilities.math.MathUtilities;
 
 /**
@@ -96,6 +97,20 @@ public class Point implements Comparable<Point>
 		if (that == null) return 1;
 
 		return Point.LexicographicOrdering(this, that);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		//check if obj is null or of different class
+				if (obj == null) return false;
+				if (obj.getClass() != this.getClass()) return false;
+				
+				Point objAsPoint = (Point) obj;
+				//check obj address and coordinates
+				if (this == obj) return true; 
+				if (MathUtilities.doubleEquals(this.getX(),objAsPoint.getX()) && 
+					MathUtilities.doubleEquals(this.getY(),objAsPoint.getY())) return true;
+				return false;
 	}
 	
 	@Override

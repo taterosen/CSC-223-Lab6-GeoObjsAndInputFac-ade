@@ -183,7 +183,7 @@ public class PointNamingFactory
 	 */
 	protected void updateName()
 	{
-		char firstChar = this._currentName.charAt(2);
+		char firstChar = this._currentName.charAt(0);
 
 		int intRep = Character.getNumericValue(firstChar);
 
@@ -217,6 +217,7 @@ public class PointNamingFactory
 
 	public void clear() { _database.clear(); }
 	public int size() { return _database.size(); }
+	
 
 	@Override
 	public String toString()
