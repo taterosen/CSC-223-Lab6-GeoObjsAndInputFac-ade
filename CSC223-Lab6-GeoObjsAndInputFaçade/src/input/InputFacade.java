@@ -68,12 +68,12 @@ public class InputFacade
 			segments.add(segment);
 		}
 		
-		// i need help here
+		// I need help here
 		List<Point> list = (List<Point>) pointFactory.getAllPoints();
 		PointDatabase pointData = new PointDatabase(list);
 		
-		//return Map.Entry<pointData, segments>(); //?????????
-		return null;
+		return Map.Entry<pointData, segments>(); //?????????
+
 
 	}
 }
