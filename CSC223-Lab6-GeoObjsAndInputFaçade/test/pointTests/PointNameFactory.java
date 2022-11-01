@@ -24,6 +24,7 @@ class PointNameFactory {
 	void testUpdateName() {
 		
 		PointNamingFactory pointNamingFactory = addToDataBase();
+
 		
 	}
 		
