@@ -131,10 +131,10 @@ public class PointNamingFactory
 		}
 
 		// point already has non-automatic name
-		else if(!existingPoint.getName().startsWith(_PREFIX)) return existingPoint;
+		if(!existingPoint.getName().startsWith(_PREFIX)) return existingPoint;
 
 		// point has auto name, but no replacement name given
-		else if(name.equals(_ANONYMOUS)) return existingPoint;
+		if(name.equals(_ANONYMOUS)) return existingPoint;
 		
 		// point has auto name and replacement was given
 		return createNewPoint(name,x,y);
