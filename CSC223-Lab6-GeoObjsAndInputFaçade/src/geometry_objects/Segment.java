@@ -84,4 +84,5 @@ public class Segment extends GeometricObject
 	{
 		return _point1.hashCode() +_point2.hashCode();
 	}
+
 }

@@ -3,12 +3,14 @@ package input;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.AbstractMap;
+import java.util.LinkedHashSet;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import geometry_objects.Segment;
+import geometry_objects.points.Point;
 import geometry_objects.points.PointDatabase;
 import input.components.ComponentNode;
 import input.components.FigureNode;
@@ -348,125 +350,119 @@ class InputFacadeTest {
 
 			assertTrue(node instanceof Entry);
 			
-			PointDatabase expected = new PointDatabase();
-			expected.put("A", 0.0, 0.0);
-			expected.put("B", 1.0, 1.0);
-			expected.put("C", 1.0, 0.0);
 			
-			String expectedString = "Figure \n"
-					+ "{\n"
-					+ "    Description : \"Right Triangle in the first quadrant.\"\n"
-					+ "    Points:\n"
-					+ "    {\n"
-					+ "        Point(A)(0.0, 0.0)\n"
-					+ "        Point(B)(1.0, 1.0)\n"
-					+ "        Point(C)(1.0, 0.0)\n"
-					+ "    }\n"
-					+ "    Segments:\n"
-					+ "    {\n"
-					+ "        A : B  C  \n"
-					+ "        B : C  \n"
-					+ "    }\n"
-					+ "}\n";
+			PointDatabase expectedPoints = new PointDatabase();
+			expectedPoints.put("A", 0.0, 0.0);
+			expectedPoints.put("B", 1.0, 1.0);
+			expectedPoints.put("C", 1.0, 0.0);
 			
-			StringBuilder sb = new StringBuilder(); 
-			UnparseVisitor unparser = new UnparseVisitor();
-			unparser.visitFigureNode((FigureNode)node,
-					new AbstractMap.SimpleEntry<StringBuilder, Integer>(sb, 0));	
+			assertEquals(expectedPoints.toString(), node.getKey().toString());
 			
-			assertEquals(expected, sb.toString());
+			
+			Point pointA = new Point("A", 0.0, 0.0);
+			Point pointB = new Point("B", 1.0, 1.0);
+			Point pointC = new Point("C", 1.0, 0.0);
+			
+			Set<Segment> expectedSegments = new LinkedHashSet<Segment>();
+			expectedSegments.add(new Segment(pointA, pointB));
+			expectedSegments.add(new Segment(pointA, pointC));
+			
+			expectedSegments.add(new Segment(pointB, pointC));
+			
+			
+			assertEquals(expectedSegments, node.getValue());
+			
 		}
 
 		@Test 
 		void point_GeoTest() { 
 			Entry<PointDatabase, Set<Segment>> node = runToGeoRepTest("jsonfiles/point.json");
 
-			assertTrue(node instanceof FigureNode);
+			assertTrue(node instanceof Entry);
 			
-			String expected = "Figure \n"
-					+ "{\n"
-					+ "    Description : \"A single point\"\n"
-					+ "    Points:\n"
-					+ "    {\n"
-					+ "        Point(A)(0.0, 0.0)\n"
-					+ "    }\n"
-					+ "    Segments:\n"
-					+ "    {\n"
-					+ "    }\n"
-					+ "}\n";
+			PointDatabase expectedPoints = new PointDatabase();
+			expectedPoints.put("A", 0.0, 0.0);
+			
+			System.out.println(node.getKey());
+			System.out.println(expectedPoints);
+			
+			assertEquals(expectedPoints.toString(), node.getKey().toString());
+						
+			
+			Set<Segment> expectedSegments = new LinkedHashSet<Segment>();
 
-			StringBuilder sb = new StringBuilder(); 
-			UnparseVisitor unparser = new UnparseVisitor();
-			unparser.visitFigureNode((FigureNode)node,
-				new AbstractMap.SimpleEntry<StringBuilder, Integer>(sb, 0));	  
-
-			assertEquals(expected, sb.toString());
+			assertEquals(expectedSegments, node.getValue());
+			
 		}
 
 		@Test 
 		void line_seg_test_GeoTest() { 
 			Entry<PointDatabase, Set<Segment>> node = runToGeoRepTest("jsonfiles/lineseg.json");
 		  
-			assertTrue(node instanceof FigureNode);
+			assertTrue(node instanceof Entry);
 			
-			String expected = "Figure \n"
-					+ "{\n"
-					+ "    Description : \"One line segment consisting of two points on y-axis.\"\n"
-					+ "    Points:\n"
-					+ "    {\n"
-					+ "        Point(A)(0.0, 0.0)\n"
-					+ "        Point(B)(0.0, 1.0)\n"
-					+ "    }\n"
-					+ "    Segments:\n"
-					+ "    {\n"
-					+ "        A : B  \n"
-					+ "    }\n"
-					+ "}\n";
-		  
-			StringBuilder sb = new StringBuilder(); 
-			UnparseVisitor unparser = new UnparseVisitor();
-			unparser.visitFigureNode((FigureNode)node,
-					new AbstractMap.SimpleEntry<StringBuilder, Integer>(sb, 0));	  
-
-			assertEquals(expected, sb.toString());
+			PointDatabase expectedPoints = new PointDatabase();
+			expectedPoints.put("A", 0.0, 0.0);
+			expectedPoints.put("B", 0.0, 1.0);
+			
+			assertEquals(expectedPoints.toString(), node.getKey().toString());
+						
+			
+			Point pointA = new Point("A", 0.0, 0.0);
+			Point pointB = new Point("B", 0.0, 1.0);
+			
+			Set<Segment> expectedSegments = new LinkedHashSet<Segment>();
+			expectedSegments.add(new Segment(pointA, pointB));	
+		
+			assertEquals(expectedSegments, node.getValue());
+			
 		  }
 		
 		  @Test 
 		  void snake_test_GeoTest() { 
 			  Entry<PointDatabase, Set<Segment>> node = runToGeoRepTest("jsonfiles/snake.json"); 
 			  
-			  assertTrue(node instanceof FigureNode);
+			  assertTrue(node instanceof Entry);
 			  
-			  String expected = "Figure \n"
-						+ "{\n"
-						+ "    Description : \"Three triangles glued by vertex in a row\"\n"
-						+ "    Points:\n"
-						+ "    {\n"
-						+ "        Point(A)(0.0, 0.0)\n"
-						+ "        Point(B)(0.0, 1.0)\n"
-						+ "        Point(C)(1.0, 0.0)\n"
-						+ "        Point(D)(2.0, 0.0)\n"
-						+ "        Point(E)(2.0, 1.0)\n"
-						+ "        Point(F)(3.0, 1.0)\n"
-						+ "        Point(G)(3.0, 0.0)\n"
-						+ "    }\n"
-						+ "    Segments:\n"
-						+ "    {\n"
-						+ "        A : B  C  \n"
-						+ "        B : C  \n"
-						+ "        C : D  E  \n"
-						+ "        D : E  \n"
-						+ "        E : F  G  \n"
-						+ "        F : G  \n"
-						+ "    }\n"
-						+ "}\n";
-		  
-			  StringBuilder sb = new StringBuilder(); 
-			  UnparseVisitor unparser = new UnparseVisitor();
-			  unparser.visitFigureNode((FigureNode)node,
-						new AbstractMap.SimpleEntry<StringBuilder, Integer>(sb, 0));
-
-			  assertEquals(expected, sb.toString());
+			  PointDatabase expectedPoints = new PointDatabase();
+				expectedPoints.put("A", 0.0, 0.0);
+				expectedPoints.put("B", 0.0, 1.0);
+				expectedPoints.put("C", 1.0, 0.0);
+				expectedPoints.put("D", 2.0, 0.0);
+				expectedPoints.put("E", 2.0, 1.0);
+				expectedPoints.put("F", 3.0, 1.0);
+				expectedPoints.put("G", 3.0, 0.0);
+				
+				assertEquals(expectedPoints.toString(), node.getKey().toString());
+				
+				
+				Point pointA = new Point("A", 0.0, 0.0);
+				Point pointB = new Point("B", 0.0, 1.0);
+				Point pointC = new Point("C", 1.0, 0.0);
+				Point pointD = new Point("D", 2.0, 0.0);
+				Point pointE = new Point("E", 2.0, 1.0);
+				Point pointF = new Point("F", 3.0, 1.0);
+				Point pointG = new Point("G", 3.0, 0.0);
+				
+				Set<Segment> expectedSegments = new LinkedHashSet<Segment>();
+				expectedSegments.add(new Segment(pointA, pointB));
+				expectedSegments.add(new Segment(pointA, pointC));
+				
+				expectedSegments.add(new Segment(pointB, pointC));
+				
+				expectedSegments.add(new Segment(pointC, pointD));
+				expectedSegments.add(new Segment(pointC, pointE));
+				
+				expectedSegments.add(new Segment(pointD, pointE));
+				
+				expectedSegments.add(new Segment(pointE, pointF));
+				expectedSegments.add(new Segment(pointE, pointG));
+				
+				expectedSegments.add(new Segment(pointF, pointG));
+				
+				
+				assertEquals(expectedSegments, node.getValue());
+			 
 		  }
 		 
 
@@ -475,9 +471,41 @@ class InputFacadeTest {
 		  void collinear_line_segments_GeoTest() { 
 			  Entry<PointDatabase, Set<Segment>> node = runToGeoRepTest("jsonfiles/collinear_line_segments.json");
 		  
-			  assertTrue(node instanceof FigureNode);
+			  assertTrue(node instanceof Entry);
 			  
-			  String expected = "Figure \n"
+			  PointDatabase expectedPoints = new PointDatabase();
+				expectedPoints.put("A", 0.0, 0.0);
+				expectedPoints.put("B", 4.0, 0.0);
+				expectedPoints.put("C", 9.0, 0.0);
+				expectedPoints.put("D", 11.0, 0.0);
+				expectedPoints.put("E", 16.0, 0.0);
+				expectedPoints.put("F", 26.0, 0.0);
+				
+				assertEquals(expectedPoints.toString(), node.getKey().toString());
+				
+				
+				Point pointA = new Point("A", 0.0, 0.0);
+				Point pointB = new Point("B", 4.0, 0.0);
+				Point pointC = new Point("C", 9.0, 0.0);
+				Point pointD = new Point("D", 11.0, 0.0);
+				Point pointE = new Point("E", 16.0, 0.0);
+				Point pointF = new Point("F", 26.0, 0.0);
+				
+				Set<Segment> expectedSegments = new LinkedHashSet<Segment>();
+				expectedSegments.add(new Segment(pointA, pointB));
+				
+				expectedSegments.add(new Segment(pointB, pointC));
+				
+				expectedSegments.add(new Segment(pointC, pointD));
+				
+				expectedSegments.add(new Segment(pointD, pointE));
+				
+				expectedSegments.add(new Segment(pointE, pointF));
+				
+				
+				assertEquals(expectedSegments, node.getValue());
+			  
+			  String stringexpected = "Figure \n"
 						+ "{\n"
 						+ "    Description : \"A seqeunce of collinear line segments mimicking one line with 6 points.\"\n"
 						+ "    Points:\n"
@@ -499,12 +527,7 @@ class InputFacadeTest {
 						+ "    }\n"
 						+ "}\n";
 		  
-			  StringBuilder sb = new StringBuilder(); 
-			  UnparseVisitor unparser = new UnparseVisitor();
-			  unparser.visitFigureNode((FigureNode)node,
-					new AbstractMap.SimpleEntry<StringBuilder, Integer>(sb, 0));	 
-
-			  assertEquals(expected, sb.toString());
+			  
 		  }
 		 
 
@@ -514,34 +537,40 @@ class InputFacadeTest {
 			  Entry<PointDatabase, Set<Segment>> node = runToGeoRepTest(
 					  				"jsonfiles/crossing_symmetric_triangle.json");
 		  
-			  assertTrue(node instanceof FigureNode);
+			  assertTrue(node instanceof Entry);
 			  
-			  String expected = "Figure \n"
-						+ "{\n"
-						+ "    Description : \"Crossing symmetric triangle construction.\"\n"
-						+ "    Points:\n"
-						+ "    {\n"
-						+ "        Point(A)(3.0, 6.0)\n"
-						+ "        Point(B)(2.0, 4.0)\n"
-						+ "        Point(C)(4.0, 4.0)\n"
-						+ "        Point(D)(0.0, 0.0)\n"
-						+ "        Point(E)(6.0, 0.0)\n"
-						+ "    }\n"
-						+ "    Segments:\n"
-						+ "    {\n"
-						+ "        A : B  C  \n"
-						+ "        B : C  D  E  \n"
-						+ "        C : D  E  \n"
-						+ "        D : E  \n"
-						+ "    }\n"
-						+ "}\n";
+			  PointDatabase expectedPoints = new PointDatabase();
+				expectedPoints.put("A", 3.0, 6.0);
+				expectedPoints.put("B", 2.0, 4.0);
+				expectedPoints.put("C", 4.0, 4.0);
+				expectedPoints.put("D", 0.0, 0.0);
+				expectedPoints.put("E", 6.0, 0.0);
+				
+				assertEquals(expectedPoints.toString(), node.getKey().toString());
+				
+				
+				Point pointA = new Point("A", 3.0, 6.0);
+				Point pointB = new Point("B", 2.0, 4.0);
+				Point pointC = new Point("C", 4.0, 4.0);
+				Point pointD = new Point("D", 0.0, 0.0);
+				Point pointE = new Point("E", 6.0, 0.0);
+				
+				Set<Segment> expectedSegments = new LinkedHashSet<Segment>();
+				expectedSegments.add(new Segment(pointA, pointB));
+				expectedSegments.add(new Segment(pointA, pointC));
+				
+				expectedSegments.add(new Segment(pointB, pointC));
+				expectedSegments.add(new Segment(pointB, pointD));
+				expectedSegments.add(new Segment(pointB, pointE));
+				
+				expectedSegments.add(new Segment(pointC, pointD));
+				expectedSegments.add(new Segment(pointC, pointE));
+				
+				expectedSegments.add(new Segment(pointD, pointE));
+				
+				
+				assertEquals(expectedSegments, node.getValue());
 		  
-			  StringBuilder sb = new StringBuilder(); 
-			  UnparseVisitor unparser = new UnparseVisitor();
-			  unparser.visitFigureNode((FigureNode)node,
-					new AbstractMap.SimpleEntry<StringBuilder, Integer>(sb, 0));	  
-
-			  assertEquals(expected, sb.toString());
 		  }
 		 
 
@@ -551,34 +580,42 @@ class InputFacadeTest {
 			  Entry<PointDatabase, Set<Segment>> node = runToGeoRepTest(
 					  				"jsonfiles/fully_connected_irregular_polygon.json");
 		  
-			  assertTrue(node instanceof FigureNode);
+			  assertTrue(node instanceof Entry);
 			  
-			  String expected = "Figure \n"
-						+ "{\n"
-						+ "    Description : \"Irregular pentagon in which each vertex is connected to each other.\"\n"
-						+ "    Points:\n"
-						+ "    {\n"
-						+ "        Point(A)(0.0, 0.0)\n"
-						+ "        Point(B)(4.0, 0.0)\n"
-						+ "        Point(C)(6.0, 3.0)\n"
-						+ "        Point(D)(3.0, 7.0)\n"
-						+ "        Point(E)(-2.0, 4.0)\n"
-						+ "    }\n"
-						+ "    Segments:\n"
-						+ "    {\n"
-						+ "        A : B  C  D  E  \n"
-						+ "        B : C  D  E  \n"
-						+ "        C : D  E  \n"
-						+ "        D : E  \n"
-						+ "    }\n"
-						+ "}\n";
-		  
-			  StringBuilder sb = new StringBuilder(); 
-			  UnparseVisitor unparser = new UnparseVisitor();
-			  unparser.visitFigureNode((FigureNode)node,
-					new AbstractMap.SimpleEntry<StringBuilder, Integer>(sb, 0));	  
-
-			  assertEquals(expected, sb.toString());
+			  PointDatabase expectedPoints = new PointDatabase();
+				expectedPoints.put("A", 0.0, 0.0);
+				expectedPoints.put("B", 4.0, 0.0);
+				expectedPoints.put("C", 6.0, 3.0);
+				expectedPoints.put("D", 3.0, 7.0);
+				expectedPoints.put("E", -2.0, 4.0);
+				
+				assertEquals(expectedPoints.toString(), node.getKey().toString());
+				
+				
+				Point pointA = new Point("A", 0.0, 0.0);
+				Point pointB = new Point("B", 4.0, 0.0);
+				Point pointC = new Point("C", 6.0, 3.0);
+				Point pointD = new Point("D", 3.0, 7.0);
+				Point pointE = new Point("E", -2.0, 4.0);
+				
+				Set<Segment> expectedSegments = new LinkedHashSet<Segment>();
+				expectedSegments.add(new Segment(pointA, pointB));
+				expectedSegments.add(new Segment(pointA, pointC));
+				expectedSegments.add(new Segment(pointA, pointD));
+				expectedSegments.add(new Segment(pointA, pointE));
+				
+				expectedSegments.add(new Segment(pointB, pointC));
+				expectedSegments.add(new Segment(pointB, pointD));
+				expectedSegments.add(new Segment(pointB, pointE));
+				
+				expectedSegments.add(new Segment(pointC, pointD));
+				expectedSegments.add(new Segment(pointC, pointE));
+				
+				expectedSegments.add(new Segment(pointD, pointE));
+				
+				
+				assertEquals(expectedSegments, node.getValue());
+			 
 		  }
 		 
 
@@ -587,41 +624,55 @@ class InputFacadeTest {
 		  void Tri_Quad_GeoTest() { 
 			  Entry<PointDatabase, Set<Segment>> node = runToGeoRepTest("jsonfiles/Tri_Quad.json");
 		  
-			  assertTrue(node instanceof FigureNode);
+			  assertTrue(node instanceof Entry);
 			  
-			  String expected = "Figure \n"
-						+ "{\n"
-						+ "    Description : \"Tri Quad Shape.\"\n"
-						+ "    Points:\n"
-						+ "    {\n"
-						+ "        Point(A)(4.0, 0.0)\n"
-						+ "        Point(B)(8.0, 0.0)\n"
-						+ "        Point(C)(4.0, 5.0)\n"
-						+ "        Point(D)(8.0, 5.0)\n"
-						+ "        Point(E)(0.0, 10.0)\n"
-						+ "        Point(F)(12.0, 10.0)\n"
-						+ "        Point(G)(4.0, 12.0)\n"
-						+ "        Point(H)(8.0, 12.0)\n"
-						+ "        Point(I)(6.0, 10.0)\n"
-						+ "    }\n"
-						+ "    Segments:\n"
-						+ "    {\n"
-						+ "        A : B  C  \n"
-						+ "        B : D  \n"
-						+ "        C : D  E  I  \n"
-						+ "        D : F  I  \n"
-						+ "        E : G  \n"
-						+ "        F : H  \n"
-						+ "        G : I  \n"
-						+ "        H : I  \n"
-						+ "    }\n"
-						+ "}\n";
-		  
-			  StringBuilder sb = new StringBuilder(); 
-			  UnparseVisitor unparser = new UnparseVisitor();
-			  unparser.visitFigureNode((FigureNode)node,
-					new AbstractMap.SimpleEntry<StringBuilder, Integer>(sb, 0));	  
+			  PointDatabase expectedPoints = new PointDatabase();
+				expectedPoints.put("A", 4.0, 0.0);
+				expectedPoints.put("B", 8.0, 0.0);
+				expectedPoints.put("C", 4.0, 5.0);
+				expectedPoints.put("D", 8.0, 5.0);
+				expectedPoints.put("E", 0.0, 10.0);
+				expectedPoints.put("F", 12.0, 10.0);
+				expectedPoints.put("G", 4.0, 12.0);
+				expectedPoints.put("H", 8.0, 12.0);
+				expectedPoints.put("I", 6.0, 10.0);
+				
+				assertEquals(expectedPoints.toString(), node.getKey().toString());
+				
+				
+				Point pointA = new Point("A", 4.0, 0.0);
+				Point pointB = new Point("B", 8.0, 0.0);
+				Point pointC = new Point("C", 4.0, 5.0);
+				Point pointD = new Point("D", 8.0, 5.0);
+				Point pointE = new Point("E", 0.0, 10.0);
+				Point pointF = new Point("F", 12.0, 10.0);
+				Point pointG = new Point("G", 4.0, 12.0);
+				Point pointH = new Point("H", 8.0, 12.0);
+				Point pointI = new Point("I", 6.0, 10.0);
+				
+				Set<Segment> expectedSegments = new LinkedHashSet<Segment>();
+				expectedSegments.add(new Segment(pointA, pointB));
+				expectedSegments.add(new Segment(pointA, pointC));
+				
+				expectedSegments.add(new Segment(pointB, pointD));
+				
+				expectedSegments.add(new Segment(pointC, pointD));
+				expectedSegments.add(new Segment(pointC, pointE));
+				expectedSegments.add(new Segment(pointC, pointI));
+				
+				expectedSegments.add(new Segment(pointD, pointF));
+				expectedSegments.add(new Segment(pointD, pointI));
+				
+				expectedSegments.add(new Segment(pointE, pointG));
+				
+				expectedSegments.add(new Segment(pointF, pointH));
+				
+				expectedSegments.add(new Segment(pointG, pointI));
 
-			  assertEquals(expected, sb.toString());
+				expectedSegments.add(new Segment(pointH, pointI));
+			
+				
+				assertEquals(expectedSegments, node.getValue());
+				
 		  }
 }

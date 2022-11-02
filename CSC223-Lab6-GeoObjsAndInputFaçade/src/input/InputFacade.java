@@ -48,11 +48,10 @@ public class InputFacade
 		FigureNode figure = extractFigure(filename);
 		
 		//change PointNodes in PointNodeDatabase into Points, then add to PointNamingFactory
-		PointNamingFactory pointFactory = new PointNamingFactory();
+		PointDatabase pointData = new PointDatabase();
 		
 		for(PointNode p: figure.getPointsDatabase().getPoints()) {
-			Point point = new Point(p.getName(),p.getX(),p.getY());
-			pointFactory.put(point);
+			pointData.put(p.getName(),p.getX(),p.getY());
 		}
 		
 		//change SegmentNodes into Segments, then add to a LinkedHashSet
@@ -67,10 +66,6 @@ public class InputFacade
 			Segment segment = new Segment(point1,point2);
 			segments.add(segment);
 		}
-		
-		
-		List<Point> list = (List<Point>) pointFactory.getAllPoints();
-		PointDatabase pointData = new PointDatabase(list);
 		
 		return new AbstractMap.SimpleEntry<PointDatabase, Set<Segment>>(pointData, segments);
 

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import utilities.math.MathUtilities;
+
 /**
  * This class represents a bi-directional database of points.
  * 
@@ -104,5 +106,10 @@ public class PointDatabase
 	public Point getPoint(double x, double y)
 	{
 		return this.getPoint(new Point(x,y));
+	}
+
+	@Override
+	public String toString() {
+		return this._factory.toString();
 	}
 }

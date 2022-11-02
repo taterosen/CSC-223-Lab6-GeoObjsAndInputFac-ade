@@ -239,6 +239,17 @@ public class PointNamingFactory
 	
 	public int size() { return _database.size(); }
 
+	@Override
+	public boolean equals(Object obj) {
+		//check if obj is null or of different class
+		if (obj == null) return false;
+		if (obj.getClass() != this.getClass()) return false;
+
+		PointDatabase objAsPointDatabase = (PointDatabase) obj;
+		//check if obj points match this
+		
+		return false;
+	}
 
 	@Override
 	public String toString()
