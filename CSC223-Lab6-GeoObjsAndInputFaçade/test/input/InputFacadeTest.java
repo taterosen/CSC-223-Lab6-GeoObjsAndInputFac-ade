@@ -16,7 +16,6 @@ import input.components.ComponentNode;
 import input.components.FigureNode;
 import input.exception.ParseException;
 import input.visitor.UnparseVisitor;
-import input.parser.JSONParser;
 
 class InputFacadeTest {
 	

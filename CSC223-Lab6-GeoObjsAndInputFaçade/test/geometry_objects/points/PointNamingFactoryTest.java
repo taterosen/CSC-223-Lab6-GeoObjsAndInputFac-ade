@@ -72,20 +72,12 @@ class PointNamingFactoryTest {
 	void testPutCoordinates() {
 
 		PointNamingFactory pnf = new PointNamingFactory();
-
-		pnf.put(0,0);
-		assertTrue(pnf.contains(0, 0));
-		assertTrue(pnf.contains(new Point("*_A",0.00,0.00)));
-
-		pnf.put(50,50);
-		assertTrue(pnf.contains(50, 50));
-		assertTrue(pnf.contains(new Point("*_B",50.00,50.00)));
-
-		//duplicate
 		
-		assertTrue(pnf.contains(0, 0));
-		
+		Point point = pnf.put(0,0);
+		assertEquals(new Point("*_A",0,0), point);
 
+		Point point2 = pnf.put(1,1);
+		assertEquals(new Point("*_B",1,1), point2);
 	}
 
 	@Test
