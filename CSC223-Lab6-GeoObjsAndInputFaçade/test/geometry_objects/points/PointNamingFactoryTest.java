@@ -55,15 +55,17 @@ class PointNamingFactoryTest {
 		Point point = pnf.put(new Point(0,0));
 		assertEquals(new Point("*-A",0,0), point);
 		
+		Point point2 = pnf.put(new Point("name",1, 0));
+		assertEquals(new Point("name",1,0), point2);
 		
-		assertTrue(pnf.contains(0, 0));
-		assertTrue(pnf.contains(new Point("*_A",0.00,0.00)));
+		//overwrite point *_A
+		point = pnf.put(new Point("update",0,0));
+		assertEquals(new Point("update",0,0), point);
 
-		Point point2 = new Point("name",1, 0);
-		pnf.put(point2);
-		assertTrue(pnf.contains(point2));
-		assertTrue(pnf.contains(1, 0));
-		assertTrue(pnf.contains(new Point("name",1.00,0.00)));
+		//does not overwrite
+		point2 = pnf.put(new Point(1,0));
+		assertEquals(new Point("name",1,0), point2);
+		
 	}
 
 	@Test
@@ -91,13 +93,14 @@ class PointNamingFactoryTest {
 
 		PointNamingFactory pnf = new PointNamingFactory();
 
-		pnf.put("name",0,0);
-		assertTrue(pnf.contains(new Point("name", 0, 0)));
+		Point point = pnf.put("name",0,0);
+		assertEquals(new Point("name",0,0), point);
 
-		pnf.put("name",0,0);
-		assertTrue(pnf.contains(new Point("name", 0, 0)));
+		Point nullPoint = pnf.put(null,1,1);
+		assertEquals(new Point("*_A",1,1), nullPoint);
 
-
+		Point emptyStringPoint = pnf.put(null,2,2);
+		assertEquals(new Point("*_B",2,2), emptyStringPoint);
 	}
 
 	@Test
