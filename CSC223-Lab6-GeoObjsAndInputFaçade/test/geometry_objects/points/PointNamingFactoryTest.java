@@ -54,9 +54,10 @@ class PointNamingFactoryTest {
 
 		PointNamingFactory pnf = new PointNamingFactory();
 
-		Point point = new Point(0, 0);
-		pnf.put(point);
-		assertTrue(pnf.contains(point));
+		Point point = pnf.put(new Point(0,0));
+		assertEquals(new Point("*-A",0,0), point);
+		
+		
 		assertTrue(pnf.contains(0, 0));
 		assertTrue(pnf.contains(new Point("*_A",0.00,0.00)));
 
@@ -128,7 +129,6 @@ class PointNamingFactoryTest {
 	void testLookupExisting() {
 
 		PointNamingFactory pnf = addToDataBase();
-		
 		
 
 

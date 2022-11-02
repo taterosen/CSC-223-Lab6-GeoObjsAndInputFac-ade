@@ -122,12 +122,21 @@ public class PointNamingFactory
 	 */
 	protected Point lookupExisting(String name, double x, double y)
 	{
-		Point pt = new Point(x,y);
-		if(name != _ANONYMOUS && this.contains(pt) && pt.getName().startsWith(_PREFIX)) 
-			return this.put(name,x,y);
-		if(this.contains(x,y)) return this.get(pt);
+		Point existingPoint = this.get(x, y);
+		// point doesn't exist yet
+		if(existingPoint == null) 
+		{
+			if(name.equals(_ANONYMOUS)) name = getCurrentName();
+			return createNewPoint(name,x,y);
+		}
 
-		if(name == _ANONYMOUS) name = getCurrentName();
+		// point already has non-automatic name
+		else if(!existingPoint.getName().startsWith(_PREFIX)) return existingPoint;
+
+		// point has auto name, but no replacement name given
+		else if(name.equals(_ANONYMOUS)) return existingPoint;
+		
+		// point has auto name and replacement was given
 		return createNewPoint(name,x,y);
 	}  
 
@@ -217,7 +226,7 @@ public class PointNamingFactory
 
 	public void clear() { _database.clear(); }
 	public int size() { return _database.size(); }
-	
+
 
 	@Override
 	public String toString()
