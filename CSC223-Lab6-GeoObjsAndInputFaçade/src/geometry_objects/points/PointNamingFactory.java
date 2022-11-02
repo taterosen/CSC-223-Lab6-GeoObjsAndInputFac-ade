@@ -37,7 +37,6 @@ public class PointNamingFactory
 	public PointNamingFactory()
 	{
 		this._database = new LinkedHashMap<Point,Point>();
-
 	}
 
 	/**
@@ -47,6 +46,7 @@ public class PointNamingFactory
 	public PointNamingFactory(List<Point> points)
 	{
 		this();
+		
 		for(Point point: points) {
 			this.lookupExisting(point.getName(), point.getX(), point.getY());
 		}
@@ -146,16 +146,12 @@ public class PointNamingFactory
 	 * @param y -- single coordinate
 	 * @return a point (if it already exists) or a completely new point that
 	 *         has been added to the database.
-	 *         
-	 *         If the point is in the database and the name differs from what
-	 *         is given, nothing in the database will be changed; essentially
-	 *         this means we use the first name given for a point.
-	 *         
-	 *         The exception is that a valid name can overwrite an unnamed point.
+	 * 
+	 *         Called by lookupExisting and only creates and puts a point
 	 */
 	protected Point createNewPoint(String name, double x, double y)
 	{
-		Point point  = new Point(name,x,y);
+		Point point = new Point(name,x,y);
 
 		_database.put(point, point);
 
@@ -231,6 +227,7 @@ public class PointNamingFactory
 
 		Set<Point> points = new HashSet<Point>();
 
+		//loop through entire database to return set of points
 		for(Entry<Point,Point> entry: _database.entrySet()) {
 			points.add(entry.getKey());
 		}
@@ -239,6 +236,7 @@ public class PointNamingFactory
 	}
 
 	public void clear() { _database.clear(); }
+	
 	public int size() { return _database.size(); }
 
 

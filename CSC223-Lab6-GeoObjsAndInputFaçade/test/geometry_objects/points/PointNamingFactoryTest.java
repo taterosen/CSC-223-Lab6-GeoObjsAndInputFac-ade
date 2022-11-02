@@ -12,12 +12,10 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
-import geometry_objects.points.Point;
-import geometry_objects.points.PointNamingFactory;
-
 class PointNamingFactoryTest {
 
 	private PointNamingFactory addToDataBase() {
+		
 		PointNamingFactory pointNamingFactory = new PointNamingFactory();
 
 		for(int i = 0; i < 20; i++) {
@@ -40,6 +38,7 @@ class PointNamingFactoryTest {
 	@Test
 	void testPointNamingFactoryList() {
 		List<Point> list = new ArrayList<Point>();
+		
 		list.add(new Point(0,0));
 		list.add(new Point(1,1));
 		PointNamingFactory pnf = new PointNamingFactory(list);
@@ -128,10 +127,29 @@ class PointNamingFactoryTest {
 	void testLookupExisting() {
 
 		PointNamingFactory pnf = addToDataBase();
-
-
+		
+		//regular point existing
 		Point point = new Point("Point1",1,1);
-
+		assertEquals(pnf.lookupExisting("Point1", 1,1),point);
+		
+		//create unnamed point
+		Point unnamedPoint= new Point(30,30);
+		
+		//creating point that has no name
+		Point nonAutopoint = pnf.lookupExisting(unnamedPoint.getName(),unnamedPoint.getX(),unnamedPoint.getY());
+		assertEquals(nonAutopoint.getName(),"*_A");
+		
+		//Testing override of name
+		nonAutopoint = pnf.lookupExisting("Point30", 30, 30);
+		assertEquals(nonAutopoint.getName(),"Point30");
+		
+		
+		//creating point that doesn't exist
+		Point nullPoint = new Point("Point50",50,50);
+		
+		//point doesn't exist already
+		assertEquals(pnf.lookupExisting("Point50", 50,50),nullPoint);
+		
 		
 
 
@@ -141,8 +159,14 @@ class PointNamingFactoryTest {
 	void testCreateNewPoint() {
 
 		PointNamingFactory pnf = addToDataBase();
-
-
+		
+		Point point = pnf.createNewPoint("Point5", 1, 1);
+		
+		assertTrue(point.equals(pnf.get(point)));
+		
+		assertTrue(point.getName().equals("Point5"));
+		
+		
 	}
 
 	@Test
@@ -170,9 +194,11 @@ class PointNamingFactoryTest {
 	void testGetCurrentName() {
 
 		PointNamingFactory pnf = new PointNamingFactory();
+		
 		for (int i=0; i<25;i++) {
 			pnf.getCurrentName();	
 			}
+		
 		//check wrap around to double letters
 		assertTrue(pnf.getCurrentName().equals("*_Z"));
 		
@@ -195,7 +221,7 @@ class PointNamingFactoryTest {
 		assertTrue(pnf.getCurrentName().equals("*_C"));
 		
 		assertTrue(pnf.getCurrentName().equals("*_D"));
-		
+		//updating name and making sure changed
 		pnf.updateName();
 		
 		assertTrue(pnf.getCurrentName().equals("*_F"));
