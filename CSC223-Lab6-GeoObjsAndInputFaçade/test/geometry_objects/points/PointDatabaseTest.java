@@ -1,4 +1,4 @@
-package pointTests;
+package geometry_objects.points;
 
 import static org.junit.jupiter.api.Assertions.*;
 

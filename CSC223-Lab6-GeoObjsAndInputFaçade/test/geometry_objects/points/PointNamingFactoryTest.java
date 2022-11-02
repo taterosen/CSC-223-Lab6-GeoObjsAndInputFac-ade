@@ -1,4 +1,4 @@
-package pointTests;
+package geometry_objects.points;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,9 +81,9 @@ class PointNamingFactoryTest {
 		assertTrue(pnf.contains(new Point("*_B",50.00,50.00)));
 
 		//duplicate
-		pnf.put(0,0);
+		System.out.print(pnf.put(0,0));
 		assertTrue(pnf.contains(0, 0));
-		assertFalse(pnf.contains(new Point("*_C",0.00,0.00)));
+		
 
 	}
 
@@ -128,6 +128,8 @@ class PointNamingFactoryTest {
 	void testLookupExisting() {
 
 		PointNamingFactory pnf = addToDataBase();
+		
+		
 
 
 	}
