@@ -48,7 +48,6 @@ class PointNamingFactoryTest {
 
 	}
 
-
 	@Test
 	void testPutPoint() {
 
@@ -82,7 +81,7 @@ class PointNamingFactoryTest {
 		assertTrue(pnf.contains(new Point("*_B",50.00,50.00)));
 
 		//duplicate
-		System.out.print(pnf.put(0,0));
+		
 		assertTrue(pnf.contains(0, 0));
 		
 
@@ -129,6 +128,10 @@ class PointNamingFactoryTest {
 	void testLookupExisting() {
 
 		PointNamingFactory pnf = addToDataBase();
+
+
+		Point point = new Point("Point1",1,1);
+
 		
 
 
@@ -166,17 +169,36 @@ class PointNamingFactoryTest {
 	@Test
 	void testGetCurrentName() {
 
-		PointNamingFactory pnf = addToDataBase();
-
+		PointNamingFactory pnf = new PointNamingFactory();
+		for (int i=0; i<25;i++) {
+			pnf.getCurrentName();	
+			}
+		//check wrap around to double letters
+		assertTrue(pnf.getCurrentName().equals("*_Z"));
+		
+		assertTrue(pnf.getCurrentName().equals("*_AA"));
+		
 
 	}
 
 
 	@Test
-	void testUpdateName() {
+	void testUpdateName() 
+	{
 
-		PointNamingFactory pnf = addToDataBase();
-
+		PointNamingFactory pnf = new PointNamingFactory();
+		
+		assertTrue(pnf.getCurrentName().equals("*_A"));
+		
+		pnf.updateName();
+		
+		assertTrue(pnf.getCurrentName().equals("*_C"));
+		
+		assertTrue(pnf.getCurrentName().equals("*_D"));
+		
+		pnf.updateName();
+		
+		assertTrue(pnf.getCurrentName().equals("*_F"));
 
 	}
 

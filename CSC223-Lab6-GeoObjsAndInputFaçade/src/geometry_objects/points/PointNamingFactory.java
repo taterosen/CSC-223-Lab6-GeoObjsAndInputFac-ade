@@ -192,20 +192,34 @@ public class PointNamingFactory
 	 */
 	protected void updateName()
 	{
+		//gets only first character and integer representation of it
 		char firstChar = this._currentName.charAt(0);
+		
+		int intRep = firstChar;
 
-		int intRep = Character.getNumericValue(firstChar);
-
+		//stores next integer representation of letter
 		int nextIntRep = intRep + 1;
 
-		if (intRep == Character.getNumericValue(END_LETTER)) {
-			nextIntRep = 1;
+		//if current letter is Z then it wraps around to the front again
+		if (intRep == END_LETTER) {
+			nextIntRep = 65;
 			_numLetters++;
 		}
-
-		for (int i = 1; i < _numLetters; i++) {
-			_currentName.concat(Integer.toString(nextIntRep));
+		//if only 1 letter then just regular next letter
+		if(_numLetters==1) {
+			
+			_currentName = Character.toString((char) nextIntRep);
+			
 		}
+		//if more than one letter in the currentName then it loops through that num of times
+		else {
+			_currentName = "";
+			for (int i = 0; i < _numLetters; i++) {
+				
+				_currentName = _currentName+Character.toString((char) nextIntRep);
+			}
+		}
+		
 
 	}
 
