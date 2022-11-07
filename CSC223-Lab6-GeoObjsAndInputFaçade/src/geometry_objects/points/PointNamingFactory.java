@@ -48,7 +48,7 @@ public class PointNamingFactory
 		this();
 		
 		for(Point point: points) {
-			this.lookupExisting(point.getName(), point.getX(), point.getY());
+			this.put(point.getName(), point.getX(), point.getY());
 		}
 
 	}
@@ -198,7 +198,7 @@ public class PointNamingFactory
 
 		//if current letter is Z then it wraps around to the front again
 		if (intRep == END_LETTER) {
-			nextIntRep = 65;
+			nextIntRep = 'A';
 			_numLetters++;
 		}
 		//if only 1 letter then just regular next letter
@@ -238,18 +238,6 @@ public class PointNamingFactory
 	public void clear() { _database.clear(); }
 	
 	public int size() { return _database.size(); }
-
-	@Override
-	public boolean equals(Object obj) {
-		//check if obj is null or of different class
-		if (obj == null) return false;
-		if (obj.getClass() != this.getClass()) return false;
-
-		PointDatabase objAsPointDatabase = (PointDatabase) obj;
-		//check if obj points match this
-		
-		return false;
-	}
 
 	@Override
 	public String toString()

@@ -81,12 +81,12 @@ public class Point implements Comparable<Point>
 	public static int LexicographicOrdering(Point p1, Point p2)
 	{
 		if(p1 == p2) return 0;
-		else if(p1.getX() < p2.getX()) return -1;
-		else if(p1.getX() > p2.getX()) return 1;
-		else {
-			if(p1.getY() < p2.getY()) return -1;
-			else if(p1.getY() > p2.getY()) return 1;
-		}
+		if(p1.getX() < p2.getX()) return -1;
+		if(p1.getX() > p2.getX()) return 1;
+
+		if(p1.getY() < p2.getY()) return -1;
+		else if(p1.getY() > p2.getY()) return 1;
+
 
 		return 0;
 	}
@@ -101,16 +101,15 @@ public class Point implements Comparable<Point>
 
 	@Override
 	public boolean equals(Object obj) {
+		if (this == obj) return true; 
+		
 		//check if obj is null or of different class
 		if (obj == null) return false;
 		if (obj.getClass() != this.getClass()) return false;
 
 		Point objAsPoint = (Point) obj;
 		//check obj address and coordinates
-		if (this == obj) return true; 
-		if (MathUtilities.doubleEquals(this.getX(),objAsPoint.getX()) && 
-				MathUtilities.doubleEquals(this.getY(),objAsPoint.getY())) return true;
-		return false;
+		return this.compareTo(objAsPoint) == 0;
 	}
 
 	@Override

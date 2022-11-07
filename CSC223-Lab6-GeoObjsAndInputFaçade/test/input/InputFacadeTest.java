@@ -21,20 +21,16 @@ class InputFacadeTest {
 	
 	public static ComponentNode runExtractFigureTest(String filename)
 	{ 
-		InputFacade parser = new InputFacade();
-
 		String figureStr = utilities.io.FileUtilities.readFileFilterComments(filename);
 		System.out.print(figureStr);
-		return parser.extractFigure(figureStr); 
+		return InputFacade.extractFigure(figureStr); 
 	}
 	
 	public static Entry<PointDatabase, Set<Segment>> runToGeoRepTest(String filename)
 	{ 
-		InputFacade geoParser = new InputFacade();
-
 		String figureStr = utilities.io.FileUtilities.readFileFilterComments(filename);
 		System.out.print(figureStr);
-		return geoParser.toGeometryRepresentation(figureStr); 
+		return InputFacade.toGeometryRepresentation(figureStr); 
 	}
 	
 	
@@ -43,9 +39,7 @@ class InputFacadeTest {
 	@Test
 	void empty_json_string_test()
 	{
-		InputFacade parser = new InputFacade();
-
-		assertThrows(ParseException.class, () -> { parser.extractFigure("{}"); });
+		assertThrows(ParseException.class, () -> { InputFacade.extractFigure("{}"); });
 	}
 
 	@Test void single_triangle_test()
@@ -330,17 +324,43 @@ class InputFacadeTest {
 	  
 	  
 	  
+///////////////////////////////////////////////////////////////////////////////
+
 	  
+///////////////////////////////////////////////////////////////////////////////
+
 	  
+//////////////////////////////////////////////////////////////////////////////
+
 	  
-	//all tests below test toGeometryRepresentation() by calling runToGeoRepTest or empty filename
+//////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////
+ 
+
+//all tests below test toGeometryRepresentation() by calling runToGeoRepTest or empty filename
+	  
+///////////////////////////////////////////////////////////////////////////////
+ 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	  
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+
 		
 		@Test
 		void empty_json_string_GeoTest()
 		{
-			InputFacade parser = new InputFacade();
-
-			assertThrows(ParseException.class, () -> { parser.toGeometryRepresentation("{}"); });
+			assertThrows(ParseException.class, () -> { InputFacade.toGeometryRepresentation("{}"); });
 		}
 
 		@Test void single_triangle_GeoTest()

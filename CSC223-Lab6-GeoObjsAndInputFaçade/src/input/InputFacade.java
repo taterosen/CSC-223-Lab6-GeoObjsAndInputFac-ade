@@ -47,7 +47,7 @@ public class InputFacade
 	{
 		FigureNode figure = extractFigure(filename);
 		
-		//change PointNodes in PointNodeDatabase into Points, then add to PointNamingFactory
+		//change PointNodes in PointNodeDatabase into Points, then add to PointDatabase
 		PointDatabase pointData = new PointDatabase();
 		
 		for(PointNode p: figure.getPointsDatabase().getPoints()) {
